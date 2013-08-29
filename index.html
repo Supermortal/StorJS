@@ -3,53 +3,112 @@
 <head>
 	<script type="text/javascript" src="js/Stor.js"></script>
 	<script type="text/javascript">
-			try {
+		try {
+		
+			//Stor.Tree.Modes = {
+				//StoreValues: { value: 0, name: "StoreValues", code: "SV" },
+				//CreateAndStoreObjects: { value: 1, name: "CreateAndStoreObjects", code: "CASO" },
+				//CreateObjects: { value: 2, name: "CreateObjects", code: "CO" },
+				//CreateArrays: { value: 3, name: "CreateArrays", code: "CA" },
+				//CartesianStoreValues: { value: 4, name: "CartesianStoreValues", code: "C-SV" },
+				//CreateAndStoreArrays: { value: 5, name: "CreateAndStoreArrays", code: "CASA" }
+			//};
+			
+			
+			//StoreValues: { value: 0, name: "StoreValues", code: "SV" }
+		
 			var data = [];
 			
-			data.push([ "Prop1", "One", "Red", 0, "A"]);
-			data.push([ "Prop1", "Two", "Blue", 1, "B"]);
-			data.push([ "Prop1", "Three", "Red", 2, "C"]);
-			data.push([ "Prop1", "Four", "Blue", 3, "D"]);
+			data.push([0, 1, 20, 3, 47]);
+			data.push([9, 10, 29, 4, 42]);
+			data.push([21, 17, 14, 5, 24]);
+			data.push([6, 5, 12, 6, 99]);
 			
-			data.push([ "Prop2", "One", "Red", "Value5", "A"]);
-			data.push([ "Prop2", "One", "Blue", "Value6", "B"]);
-			data.push([ "Prop2", "Two", "Red", "Value7", "C"]);
-			data.push([ "Prop2", "Two", "Blue", "Value8", "D"]);
+			var storTree = new Stor.StorTree(data, Stor.Tree.Modes.StoreValues, null, null, 0, 1, 2, 3, 4);
 			
-			//var storTree = new Stor.StorTree(data, Stor.Tree.Modes.CartesianStoreValues, "_count", 0, 1, 2, 3, [[5], { value: 4, defaultValue: -1 }]);
-			//var storTree = new Stor.StorTree(data, Stor.Tree.Modes.StoreValues, 0, 1, 2, 3, 4);
+			
+			//CreateAndStoreObjects: { value: 1, name: "CreateAndStoreObjects", code: "CASO" }
 			
 			data = [];
 			
-			data.push({ key1: "Value1", key2: "Value2", key3: 2, key4: 3});
-			data.push({ key1: "Value4", key2: "Value5", key3: 3, key4: 4});
-			data.push({ key1: "Value7", key2: "Value8", key3: 4, key4: 5});
-			data.push({ key1: "Value7", key2: "Value9", key3: 5, key4: 6});
+			data.push({"StudentName": "Brian", "TestScore": 90, "StudentId": 1, "Age": 20, "TestSubject": "Biology"});
+			data.push({"StudentName": "Chris", "TestScore": 30, "StudentId": 2, "Age": 19, "TestSubject": "Biology"});
+			data.push({"StudentName": "Jimmy", "TestScore": 50, "StudentId": 3, "Age": 25, "TestSubject": "Math"});
+			data.push({"StudentName": "Lefty", "TestScore": 76, "StudentId": 4, "Age": 22, "TestSubject": "Math"});
+			
+			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CreateAndStoreObjects, null, null, "TestSubject", "StudentId", { name: "StudentName", age: "Age", id: "StudentId", score: "TestScore" });
 			
 			data = [];
 			
-			data.push(["key1", "key2", "key3", 4]);
-			data.push(["key1", "key2", "key3", 2]);
-			data.push(["key1", "key2", "key3", 11]);
-			data.push(["key1", "key2", "key3", 9]);
-			data.push(["key1", "key2", "key3", 6]);
+			data.push(["Brian", 90, 1, 20, "Biology"]);
+			data.push(["Chris", 30, 2, 19, "Biology"]);
+			data.push(["Jimmy", 50, 3, 25, "Math"]);
+			data.push(["Lefty", 76, 4, 22, "Math"]);
 			
-			//var storTree2 = new Stor.StorTree(data, Stor.Tree.Modes.CartesianStoreValues, "_count", "_total",  "key1", "key2", "key3", {value: 'key4', defaultValue: 1});
-			//var storTree2 = new Stor.StorTree(data, Stor.Tree.Modes.StoreValues, "_count", "_total",  "key1", "key2", "key3", 'key4');
-			var storTree3 = new Stor.StorTree(data, Stor.Tree.Modes.CreateAndStoreArrays, null, null, 0, 1, 2, 3);
+			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CreateAndStoreObjects, null, null, 4, 2, { name: 0, age: 3, id: 2, score: 1 });
 			
-			//var s = storTree.count("Prop2", "One", "Red");
 			
-			//var d = storTree.tree["One"]["Two"]["Three"].stuff = "stuff";
+			//CreateObjects: { value: 2, name: "CreateObjects", code: "CO" }
+			
+			data = [];
+			
+			data.push(["New York", "New York City"]);
+			data.push(["Utah", "Salt Lake City"]);
+			data.push(["Arizona", "Phoenix"]);
+			data.push(["California", "Los Angeles"]);
+			
+			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CreateObjects, null, null, 0, 1);
+			
+			
+			//CreateArrays: { value: 3, name: "CreateArrays", code: "CA" },
+			
+			data = [];
+			
+			data.push(["New York", "New York City"]);
+			data.push(["Utah", "Salt Lake City"]);
+			data.push(["Arizona", "Phoenix"]);
+			data.push(["California", "Los Angeles"]);
+			
+			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CreateArrays, null, null, 0, 1);
+			
+			
+			//CartesianStoreValues: { value: 4, name: "CartesianStoreValues", code: "C-SV" },
+			
+			data = [];
+			
+			data.push({"Site": 1, "Tester": "George", "Result": "pass"});
+			data.push({"Site": 1, "Tester": "Bill", "Result": "fail"});
+			data.push({"Site": 2, "Tester": "George", "Result": "fail"});
+			data.push({"Site": 2, "Tester": "John", "Result": "pass"});
+			data.push({"Site": 3, "Tester": "George", "Result": "fail"});
+			data.push({"Site": 3, "Tester": "Ace", "Result": "fail"});
+			
+			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CartesianStoreValues, null, null, "Site", "Tester", { value: "Result", defaultValue: "NA" });
+			
+			
+			//CreateAndStoreArrays: { value: 5, name: "CreateAndStoreArrays", code: "CASA" }
+			
+			data = [];
+			
+			data.push({"Site": 1, "Tester": "George"});
+			data.push({"Site": 1, "Tester": "Bill"});
+			data.push({"Site": 2, "Tester": "George"});
+			data.push({"Site": 2, "Tester": "John"});
+			data.push({"Site": 3, "Tester": "George"});
+			data.push({"Site": 3, "Tester": "Ace"});
+			
+			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CreateAndStoreArrays, null, null, "Site", "Tester");
+			
 			
 			var t = "t";
-			}
-			catch (ex) {
-				alert(ex);
-			}
+			
+		}
+		catch (ex) {
+			alert(ex);
+		}
 	</script>
 </head>
 <body>
-	<input type="file" onclick="alert('Test')" />
+
 </body>
 </html>
