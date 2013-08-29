@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+	<script type="text/javascript" src="js/Stor.js"></script>
+	<script type="text/javascript">
+			try {
+			var data = [];
+			
+			data.push([ "Prop1", "One", "Red", 0, "A"]);
+			data.push([ "Prop1", "Two", "Blue", 1, "B"]);
+			data.push([ "Prop1", "Three", "Red", 2, "C"]);
+			data.push([ "Prop1", "Four", "Blue", 3, "D"]);
+			
+			data.push([ "Prop2", "One", "Red", "Value5", "A"]);
+			data.push([ "Prop2", "One", "Blue", "Value6", "B"]);
+			data.push([ "Prop2", "Two", "Red", "Value7", "C"]);
+			data.push([ "Prop2", "Two", "Blue", "Value8", "D"]);
+			
+			//var storTree = new Stor.StorTree(data, Stor.Tree.Modes.CartesianStoreValues, "_count", 0, 1, 2, 3, [[5], { value: 4, defaultValue: -1 }]);
+			//var storTree = new Stor.StorTree(data, Stor.Tree.Modes.StoreValues, 0, 1, 2, 3, 4);
+			
+			data = [];
+			
+			data.push({ key1: "Value1", key2: "Value2", key3: 2, key4: 3});
+			data.push({ key1: "Value4", key2: "Value5", key3: 3, key4: 4});
+			data.push({ key1: "Value7", key2: "Value8", key3: 4, key4: 5});
+			data.push({ key1: "Value7", key2: "Value9", key3: 5, key4: 6});
+			
+			data = [];
+			
+			data.push(["key1", "key2", "key3", 4]);
+			data.push(["key1", "key2", "key3", 2]);
+			data.push(["key1", "key2", "key3", 11]);
+			data.push(["key1", "key2", "key3", 9]);
+			data.push(["key1", "key2", "key3", 6]);
+			
+			//var storTree2 = new Stor.StorTree(data, Stor.Tree.Modes.CartesianStoreValues, "_count", "_total",  "key1", "key2", "key3", {value: 'key4', defaultValue: 1});
+			//var storTree2 = new Stor.StorTree(data, Stor.Tree.Modes.StoreValues, "_count", "_total",  "key1", "key2", "key3", 'key4');
+			var storTree3 = new Stor.StorTree(data, Stor.Tree.Modes.CreateAndStoreArrays, null, null, 0, 1, 2, 3);
+			
+			//var s = storTree.count("Prop2", "One", "Red");
+			
+			//var d = storTree.tree["One"]["Two"]["Three"].stuff = "stuff";
+			
+			var t = "t";
+			}
+			catch (ex) {
+				alert(ex);
+			}
+	</script>
+</head>
+<body>
+	<input type="file" onclick="alert('Test')" />
+</body>
+</html>
