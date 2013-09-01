@@ -9,6 +9,30 @@
 			//The intended usage of StorTree is for data coming back from REST services, i.e. arrays of arrays or arrays of objects that come directly from the database
 			//through the service endpoint. StorTree can be used with several modes, which are demonstrated below, that give you some flexibility in how your data is stored
 			//and organized.
+			//STORTREE DOES NOT ALLOW FOR DUPLICATE VALUES IN EACH LEVEL BY DEFAULT
+			//If you need to keep track of multiple values for the bottom nodes, then use a mode like CreateAndStoreArrays
+			
+			//You can check the structures of these objects in a javascript debugger like FireBug, by putting break points at the named variables.
+			
+			//THE CONSTRUCTOR:
+			//The constructor of a StorTree object can take any number of arguments, but the first 4 are used by the object itself. The arguments in order are:
+			//First arg: This is your data. It can be either an array of objects or an array of arrays.
+			//Second arg: This is the mode you want to use with this StorTree object. It comes from an enumeration (Stor.Tree.Modes) shown below, or if you have javascript
+			//intellisense, the intellisense should pick it up as well.
+			//Third arg: This is the key/name of the property you would like to use to keep count of the number of values at each depth (if any). Pass in null if you don't want a count property.
+			//Fourth arg: This is the key/name of the property you would like to use to keep the total of the number-type values at each depth (if any). Pass in null if you don't want to have a total property.
+			//(Total and count will be demonstrated below)
+			//Fifth arg-Infinity arg: This arguments, which there can be an arbitrary number of, are the indices/object keys for each level of the tree in order
+			//For example, a constructor like so: var storTree = new Stor.StorTree(data, Stor.Tree.Modes.StoreValues, null, null, 0, 1, 2, 3, 4);, 
+			//would have a the value "root" at depth 0, whatever values are in index 0 of each of the arrays as depth 1, whatever values are in index 1 of 
+			//each of the arrays at depth 2, etc.
+			
+			//THE TREE OBJECT:
+			//The StorTree object has a few properties meant to be used/accessed by the user. They are as follows:
+			//storTree.tree: This is the tree object itself. It is organized as a tree structure in a javascript object. It is enumerable at each level.
+			//storTree.count: This is a function that returns the count at whatever node key is passed as an argument. A count property is required to be set for this to work.
+			//storTree.keys: This is an object that can be used to get the keys at each depth. For example, if you wanted the keys at depth 2, you would access the object like: storTree.keys[2], and then enumerate that object for the set of keys;
+			//storTree.depth: This will return the depth of the tree.
 		
 			//Stor.Tree.Modes = {
 				//StoreValues: { value: 0, name: "StoreValues", code: "SV" },
@@ -131,6 +155,9 @@
 			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CartesianStoreValues, null, null, "Site", "Tester", { value: "Result", defaultValue: "NA" });
 			
 			
+			var placeBreakPointHere = {};
+			
+			
 			//CreateAndStoreArrays: { value: 5, name: "CreateAndStoreArrays", code: "CASA" }
 			//This mode works like CreateArrays, except it adds each value in the last index/object key sent to the constructor to an array in the second node from the bottom.
 			//For example, one limb would look like: 1(Site)->["George", "Bill"]
@@ -150,6 +177,34 @@
 			
 			var placeBreakPointHere = {};
 			
+			
+			//TOTAL AND COUNT
+			//Note: Whatever properties you pick for total and count WILL SHOW UP IN ENUMERATION OF THAT NODE, so you'll have to check for them while enumerating.
+			
+			
+			data = [];
+			
+			data.push({"Site": 1, "Location": 1, "Result": 1});
+			data.push({"Site": 1, "Location": 2, "Result": 1});
+			data.push({"Site": 1, "Location": 3, "Result": 1});
+			data.push({"Site": 1, "Location": 4, "Result": 1});
+			data.push({"Site": 1, "Location": 5, "Result": 2});
+			data.push({"Site": 1, "Location": 6, "Result": 3});
+			data.push({"Site": 1, "Location": 7, "Result": 4});
+			data.push({"Site": 2, "Location": 1, "Result": 10});
+			data.push({"Site": 2, "Location": 2, "Result": 13});
+			data.push({"Site": 2, "Location": 3, "Result": 5});
+			data.push({"Site": 2, "Location": 4, "Result": 5});
+			data.push({"Site": 2, "Location": 5, "Result": 5});
+			data.push({"Site": 3, "Location": 1, "Result": 2});
+			data.push({"Site": 3, "Location": 2, "Result": 20});
+			data.push({"Site": 3, "Location": 3, "Result": 0});
+			
+			storTree = new Stor.StorTree(data, Stor.Tree.Modes.StoreValues, "__count", "__total", "Site", "Location", "Result");
+			
+			
+			var placeBreakPointHere = {};
+			
 		}
 		catch (ex) {
 			alert(ex);
@@ -157,6 +212,6 @@
 	</script>
 </head>
 <body>
-
+	<p>Please see the source of this file for more information and notes.</p>
 </body>
 </html>
