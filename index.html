@@ -5,6 +5,11 @@
 	<script type="text/javascript">
 		try {
 		
+			//Stor is intended to be a collection of data structures in javascript, but is currently only one structure: A multi-leafed (not binary) tree structure.
+			//The intended usage of StorTree is for data coming back from REST services, i.e. arrays of arrays or arrays of objects that come directly from the database
+			//through the service endpoint. StorTree can be used with several modes, which are demonstrated below, that give you some flexibility in how your data is stored
+			//and organized.
+		
 			//Stor.Tree.Modes = {
 				//StoreValues: { value: 0, name: "StoreValues", code: "SV" },
 				//CreateAndStoreObjects: { value: 1, name: "CreateAndStoreObjects", code: "CASO" },
@@ -16,18 +21,30 @@
 			
 			
 			//StoreValues: { value: 0, name: "StoreValues", code: "SV" }
+			//Store values is the most basic mode of the StorTree. It takes the indices or object keys (this mode and all modes can be used with both arrays of
+			//arrays, or arrays of objects) you give to the constructor and creates a tree based on them. The order of the indices/keys put as parameters in the
+			//constructor determine which key/index will be used for what depth.
+			//An image for the tree created from the data below should be included in the images folder
+
 		
 			var data = [];
 			
-			data.push([0, 1, 20, 3, 47]);
-			data.push([9, 10, 29, 4, 42]);
-			data.push([21, 17, 14, 5, 24]);
-			data.push([6, 5, 12, 6, 99]);
+			data.push([0, 5, 20, 3, 47]);
+			data.push([0, 10, 29, 4, 42]);
+			data.push([1, 17, 14, 4, 24]);
+			data.push([1, 5, 12, 6, 99]);
 			
 			var storTree = new Stor.StorTree(data, Stor.Tree.Modes.StoreValues, null, null, 0, 1, 2, 3, 4);
 			
 			
+			var placeBreakPointHere = {};
+			
+			
 			//CreateAndStoreObjects: { value: 1, name: "CreateAndStoreObjects", code: "CASO" }
+			//This mode is used for taking part of an array or object and turning it into an object at the lowest leaf. 
+			//For example, the tree below has a structure of TestSubject (Biology, Math)->StudentId (1, 2, 3, 4)->{ name: (Brian, Chris, Jimmy, Lefty), age: (20, 19, 25, 22) ... }
+			//Each set of data below should produce the same tree. Both were included to demonstrate that StorTree can work with both arrays of arrays and arrays of objects.
+			//An image for the tree created from the data below should be included in the images folder
 			
 			data = [];
 			
@@ -37,6 +54,8 @@
 			data.push({"StudentName": "Lefty", "TestScore": 76, "StudentId": 4, "Age": 22, "TestSubject": "Math"});
 			
 			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CreateAndStoreObjects, null, null, "TestSubject", "StudentId", { name: "StudentName", age: "Age", id: "StudentId", score: "TestScore" });
+			
+			var placeBreakPointHere = {};
 			
 			data = [];
 			
@@ -48,7 +67,13 @@
 			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CreateAndStoreObjects, null, null, 4, 2, { name: 0, age: 3, id: 2, score: 1 });
 			
 			
+			var placeBreakPointHere = {};
+			
+			
 			//CreateObjects: { value: 2, name: "CreateObjects", code: "CO" }
+			//CreateObjects mode works the same as StoreValues, except instead of the last index/object key being the values of the lowest leaves 
+			//of the tree, the lowest leaves of the tree are all set as empty javascript objects.
+			//An image for the tree created from the data below should be included in the images folder
 			
 			data = [];
 			
@@ -60,7 +85,12 @@
 			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CreateObjects, null, null, 0, 1);
 			
 			
-			//CreateArrays: { value: 3, name: "CreateArrays", code: "CA" },
+			var placeBreakPointHere = {};
+			
+			
+			//CreateArrays: { value: 3, name: "CreateArrays", code: "CA" }
+			//CreateArrays works exactly the same as CreateObjects, but replaces the lowest leaves' values with empty arrays instead of empty objects.
+			//An image for the tree created from the data below should be included in the images folder
 			
 			data = [];
 			
@@ -72,7 +102,22 @@
 			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CreateArrays, null, null, 0, 1);
 			
 			
-			//CartesianStoreValues: { value: 4, name: "CartesianStoreValues", code: "C-SV" },
+			var placeBreakPointHere = {};
+			
+			
+			//CartesianStoreValues: { value: 4, name: "CartesianStoreValues", code: "C-SV" }
+			//CartesianStoreValues is probably the most complicated mode. The purpose of this mode is to specify a default value for any tree nodes that are SECOND lowest values.
+			//For example, in the data below, an example limb would be:
+			//					 	1(Site)
+			//						   |
+			//			George 		Bill 	John		Ace
+			//			  |			 |       |           |
+			//			 pass		fail     NA          NA
+			//
+			//What this means, is that every tester is added to every site node, and if there is a value in the object key Result, that value will be used,
+			//otherwise, the default value of "NA" will be used.
+			//This mode can be useful for normalizing data for use in tables and the like.
+			//An image for the tree created from the data below should be included in the images folder
 			
 			data = [];
 			
@@ -87,6 +132,9 @@
 			
 			
 			//CreateAndStoreArrays: { value: 5, name: "CreateAndStoreArrays", code: "CASA" }
+			//This mode works like CreateArrays, except it adds each value in the last index/object key sent to the constructor to an array in the second node from the bottom.
+			//For example, one limb would look like: 1(Site)->["George", "Bill"]
+			//An image for the tree created from the data below should be included in the images folder
 			
 			data = [];
 			
@@ -100,7 +148,7 @@
 			storTree = new Stor.StorTree(data, Stor.Tree.Modes.CreateAndStoreArrays, null, null, "Site", "Tester");
 			
 			
-			var t = "t";
+			var placeBreakPointHere = {};
 			
 		}
 		catch (ex) {
